@@ -1,7 +1,13 @@
 import os
-import configparser
+import sys
+if sys.version_info.major == 2:
+    # python2
+    import ConfigParser as configparser
+else:
+    # python3
+    import configparser
 
-from .plugin import TestRailPlugin
+from .plugin import PyTestRailPlugin
 from .testrail_api import APIClient
 
 
@@ -60,7 +66,7 @@ def pytest_configure(config):
                            config_manager.getoption('tr-password', 'password', 'API'))
 
         config.pluginmanager.register(
-            TestRailPlugin(
+            PyTestRailPlugin(
                 client=client,
                 assign_user_id=config_manager.getoption('tr-testrun-assignedto-id', 'assignedto_id', 'TESTRUN'),
                 project_id=config_manager.getoption('tr-testrun-project-id', 'project_id', 'TESTRUN'),
